@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  gateway_service:
+    container_name: gateway_service
+    build:
+      context: ./gateway
+      dockerfile: ./Dockerfile
+    ports:
+      - "3001:5001"
+      - "3000:3000"
+    networks:
+      - tx
+    depends_on:
+      buzz_service:
+        condition: service_healthy
+      # fuzz_service:
+      #   condition: service_healthy
+
+  buzz_service:
+    container_name: buzz_service
+    build:
+      context: ./service_buzz
+      dockerfile: ./Dockerfile
+    ports:
+      - "3002:5002"
+    networks:
+      - tx
+    healthcheck:
+      test: "exit 0"
+
+  # fuzz_service:
+  #   container_name: fuzz_service
+  #   build:
+  #     context: ./fuzz_service
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - "3001:3000"
+  #   networks:
+  #     - tx
+  #   healthcheck:
+  #     test: "exit 0"
+
+networks:
+  tx:
+    driver: bridge

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option go_package = "github.com/Almazatun/gogrpc-mis/protobuf";
+
+import "buzz.proto";
+
+service FuzzService {
+  rpc Ping(buzz.PingRequest) returns (buzz.PongResponse) {}
+}

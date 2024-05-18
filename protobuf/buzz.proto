@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package buzz;
+
+option go_package = "github.com/Almazatun/gogrpc-mis/protobuf";
+
+service BuzzService {
+  rpc Ping(PingRequest) returns (PongResponse) {}
+}
+
+message PingRequest {
+  string str = 1;
+}
+
+message PongResponse {
+  string str = 1;
+}
