@@ -1,21 +1,31 @@
 package main
 
 import (
+	"os"
+
 	grpcServer "github.com/Almazatun/gogrpc-mis/gateway/pkg/grpc"
 	buzzHandler "github.com/Almazatun/gogrpc-mis/gateway/pkg/handler/buzz"
+	fuzzHandler "github.com/Almazatun/gogrpc-mis/gateway/pkg/handler/fuzz"
 	router "github.com/Almazatun/gogrpc-mis/gateway/pkg/http"
 )
 
 func main() {
 	// grpc
-	conn := grpcServer.NewGRPCClient(":5001")
-	defer conn.Close()
+	conn_buzz := grpcServer.NewGRPCClient(os.Getenv("BUZZ_SERVICE_ADDR"))
+	defer conn_buzz.Close()
+
+	conn_fuzz := grpcServer.NewGRPCClient(os.Getenv("FUZZ_SERVICE_ADDR"))
+	defer conn_fuzz.Close()
 
 	// grpc handler
-	buzzGRPCHandler := buzzHandler.NewBuzzGrpcHandler(conn)
+	buzzGRPCHandler := buzzHandler.NewBuzzGrpcHandler(conn_buzz)
+	fuzzGRPCHandler := fuzzHandler.NewFuzzGrpcHandler(conn_fuzz)
+
 	// buzz
 	buzzHandler := buzzHandler.NewBuzzHttpHandler(buzzGRPCHandler)
+	// fuzz
+	fuzzHandler := fuzzHandler.NewFuzzHttpHandler(fuzzGRPCHandler)
 	// http
-	server := router.NewHttpServer(":3000", buzzHandler)
+	server := router.NewHttpServer(":3000", buzzHandler, fuzzHandler)
 	server.Run()
 }

@@ -1,0 +1,18 @@
+### Gateway fuzz
+GET http://localhost:3000/fuzz
+# apiKey: APILAYER_APIKEY
+Content-Type: application/json
+
+{
+  "str": "Ping"
+}
+
+
+### Gateway buzz
+GET http://localhost:3000/buzz
+# apiKey: APILAYER_APIKEY
+Content-Type: application/json
+
+{
+  "str": "Ping"
+}

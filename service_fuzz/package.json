@@ -1,0 +1,35 @@
+{
+	"name": "service_fuzz",
+	"version": "1.0.0",
+	"description": "",
+	"main": "main.js",
+	"scripts": {
+		"start": "node dist/main.js",
+		"build": "tsc -p tsconfig.json"
+	},
+	"repository": {
+		"type": "git",
+		"url": "github.com/Almazatun/gogrpc-mis/service_fuzz"
+	},
+	"author": "Almazatun <atunstyle@gmail.com>",
+	"license": "UNLICENSED",
+	"devDependencies": {
+		"@grpc/grpc-js": "^1.10.8",
+		"@grpc/proto-loader": "^0.7.13",
+		"@types/cors": "^2.8.17",
+		"@types/express": "^4.17.21",
+		"@types/google-protobuf": "^3.15.12",
+		"@types/node": "^20.12.7",
+		"@types/nodemon": "^1.19.6",
+		"ts-loader": "^9.5.1",
+		"ts-node": "^10.9.2",
+		"ts-proto": "^1.176.0",
+		"typescript": "^5.4.5"
+	},
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^4.19.2",
+		"nodemon": "^3.1.0",
+		"prom-client": "^15.1.2"
+	}
+}

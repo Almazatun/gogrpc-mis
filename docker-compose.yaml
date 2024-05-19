@@ -9,13 +9,18 @@ services:
     ports:
       - "3001:5001"
       - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - BUZZ_SERVICE_ADDR=${BUZZ_SERVICE_ADDR}
+      - FUZZ_SERVICE_ADDR=${FUZZ_SERVICE_ADDR}
     networks:
       - tx
     depends_on:
       buzz_service:
         condition: service_healthy
-      # fuzz_service:
-      #   condition: service_healthy
+      fuzz_service:
+        condition: service_healthy
 
   buzz_service:
     container_name: buzz_service
@@ -29,17 +34,18 @@ services:
     healthcheck:
       test: "exit 0"
 
-  # fuzz_service:
-  #   container_name: fuzz_service
-  #   build:
-  #     context: ./fuzz_service
-  #     dockerfile: ./Dockerfile
-  #   ports:
-  #     - "3001:3000"
-  #   networks:
-  #     - tx
-  #   healthcheck:
-  #     test: "exit 0"
+  fuzz_service:
+    container_name: fuzz_service
+    build:
+      context: ./service_fuzz
+      dockerfile: ./Dockerfile
+    ports:
+      - "3003:5003"
+      - "9000:9000"
+    networks:
+      - tx
+    healthcheck:
+      test: "exit 0"
 
 networks:
   tx:

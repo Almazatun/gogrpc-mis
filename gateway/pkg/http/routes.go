@@ -4,18 +4,21 @@ import (
 	"fmt"
 	"net/http"
 
-	handler "github.com/Almazatun/gogrpc-mis/gateway/pkg/handler/buzz"
+	handlerB "github.com/Almazatun/gogrpc-mis/gateway/pkg/handler/buzz"
+	handlerF "github.com/Almazatun/gogrpc-mis/gateway/pkg/handler/fuzz"
 )
 
 type httpServer struct {
 	port string
-	buzz handler.BuzzHttp
+	buzz handlerB.BuzzHttp
+	fuzz handlerF.FuzzHttp
 }
 
-func NewHttpServer(port string, buzz handler.BuzzHttp) *httpServer {
+func NewHttpServer(port string, buzz handlerB.BuzzHttp, fuzz handlerF.FuzzHttp) *httpServer {
 	return &httpServer{
 		port: port,
 		buzz: buzz,
+		fuzz: fuzz,
 	}
 }
 
@@ -24,6 +27,9 @@ func (h *httpServer) Run() error {
 
 	// Buzz
 	router.HandleFunc("/buzz", h.buzz.Ping)
+
+	// Fuzz
+	router.HandleFunc("/fuzz", h.fuzz.Ping)
 
 	fmt.Println("Starting server on " + h.port)
 	return http.ListenAndServe(h.port, router)

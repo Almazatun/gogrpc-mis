@@ -17,21 +17,39 @@ run_buzz:
 	@echo 'Run buzz grpc service'
 	cd service_buzz && go run cmd/*.go
 
+run_fuzz:
+	@echo 'Run fuzz grpc service'
+	cd service_fuzz && yarn start
+
 # SERVICE_PROTO=buzz | fuzz
 gen_go:
 	@echo 'Generate go files by protos'
 	@echo "$(YELLOW) DIR: $(DIR) $(RESET)"
 	@echo "$(GREEN) SERVICE: $(SER) $(RESET)"
-	make gen
+	make gengo
+
+gen_ts:
+	@echo 'Generate typescript files by protos'
+	@echo "$(YELLOW) DIR: $(DIR) $(RESET)"
+	@echo "$(GREEN) SERVICE: $(SER) $(RESET)"
+	make gents
 
 # Execution by gateway dir
 # go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 # go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-gen:
-	@echo 'Generate types'
+gengo:
+	@echo 'Generate go files'
 	cd $(DIR) && protoc --proto_path=../protobuf "../protobuf/$(SER).proto" \
 		--go_out=./pkg/genproto --go_opt=paths=source_relative \
   	--go-grpc_out=./pkg/genproto --go-grpc_opt=paths=source_relative
+
+gents:
+	@echo 'Generate typescript files'
+	cd $(DIR) && protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto \
+       --ts_proto_out=./src/genproto \
+       --ts_proto_opt=outputServices=grpc-js \
+       --proto_path=../protobuf \
+       ../protobuf/$(SER).proto
 
 run_services:
 	@echo 'Run services'
