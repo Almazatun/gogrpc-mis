@@ -27,7 +27,6 @@ func (h *httpServer) Run() error {
 
 	// Buzz
 	router.HandleFunc("/buzz", h.buzz.Ping)
-
 	// Fuzz
 	router.HandleFunc("/fuzz", h.fuzz.Ping)
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	grpcServer "github.com/Almazatun/gogrpc-mis/gateway/pkg/grpc"
@@ -27,5 +28,9 @@ func main() {
 	fuzzHandler := fuzzHandler.NewFuzzHttpHandler(fuzzGRPCHandler)
 	// http
 	server := router.NewHttpServer(":3000", buzzHandler, fuzzHandler)
-	server.Run()
+	err := server.Run()
+
+	if err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
 }

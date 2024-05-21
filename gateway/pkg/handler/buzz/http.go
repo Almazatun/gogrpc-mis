@@ -25,6 +25,11 @@ func NewBuzzHttpHandler(grpc BuzzGrpc) BuzzHttp {
 }
 
 func (h *BuzzHttpHandler) Ping(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 	var params ReqParams
 	err := json.NewDecoder(r.Body).Decode(&params)
 

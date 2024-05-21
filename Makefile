@@ -58,3 +58,13 @@ run_services:
 stop_services:
 	@echo 'Stop services'
 	docker-compose down
+
+
+# 5000 parallels connections, duration 20 seconds
+load_buzz:
+	@echo "Run load $(GREEN) buzz$(RESET)"
+	autocannon -c 5000 -d 20 -m POST -H "Content-Type: application/json" -b '{"str": "Ping"}' http://localhost:3000/buzz
+
+load_fuzz:
+	@echo "Run load $(GREEN) fuzz$(RESET)"
+	autocannon -c 5000 -d 20 -m POST -H "Content-Type: application/json" -b '{"str": "Ping"}' http://localhost:3000/fuzz
