@@ -12,8 +12,8 @@ services:
     env_file:
       - .env
     environment:
-      - BUZZ_SERVICE_ADDR=${BUZZ_SERVICE_ADDR}
-      - FUZZ_SERVICE_ADDR=${FUZZ_SERVICE_ADDR}
+      - GATEWAY_BUZZ_SERVICE_ADDR=${GATEWAY_BUZZ_SERVICE_ADDR}
+      - GATEWAY_SERVICE_ADDR=${GATEWAY_SERVICE_ADDR}
     networks:
       - tx
     depends_on:
@@ -27,8 +27,12 @@ services:
     build:
       context: ./service_buzz
       dockerfile: ./Dockerfile
-    ports:
-      - "3002:5002"
+    env_file:
+      - .env
+    environment:
+      - ADD_SERVICE_BUZZ=${ADD_SERVICE_BUZZ}
+    # ports:
+    #   - "3002:5002"
     networks:
       - tx
     healthcheck:
@@ -39,9 +43,13 @@ services:
     build:
       context: ./service_fuzz
       dockerfile: ./Dockerfile
-    ports:
-      - "3003:5003"
-      - "9000:9000"
+    env_file:
+      - .env
+    environment:
+      - ADD_SERVICE_FUZZ=${ADD_SERVICE_FUZZ}
+    # ports:
+    #   - "3003:5003"
+    #   - "9000:9000"
     networks:
       - tx
     healthcheck:

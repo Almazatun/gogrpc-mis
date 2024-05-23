@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+  gateway_service:
+    container_name: gateway_service
+    build:
+      context: ./gateway_disrobin
+      dockerfile: ./Dockerfile
+    ports:
+      - "3001:5001"
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - ADD_SERVICES=${ADD_SERVICES}
+    networks:
+      - tx
+    depends_on:
+      buzz_service_1:
+        condition: service_healthy
+      buzz_service_2:
+        condition: service_healthy
+      buzz_service_3:
+        condition: service_healthy
+
+  buzz_service_1:
+    container_name: buzz_service_1
+    build:
+      context: ./service_buzz
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    environment:
+      - ADD_SERVICE_BUZZ=${SERVICE1}
+    ports:
+      - "5002:5002"
+    networks:
+      - tx
+    healthcheck:
+      test: "exit 0"
+
+  buzz_service_2:
+    container_name: buzz_service_2
+    build:
+      context: ./service_buzz
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    environment:
+      - ADD_SERVICE_BUZZ=${SERVICE2}
+    ports:
+      - "5003:5003"
+    networks:
+      - tx
+    healthcheck:
+      test: "exit 0"
+
+  buzz_service_3:
+    container_name: buzz_service_3
+    build:
+      context: ./service_buzz
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    environment:
+      - ADD_SERVICE_BUZZ=${SERVICE3}
+    ports:
+      - "5004:5004"
+    networks:
+      - tx
+    healthcheck:
+      test: "exit 0"
+
+networks:
+  tx:
+    driver: bridge

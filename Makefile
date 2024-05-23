@@ -55,9 +55,17 @@ run_services:
 	@echo 'Run services'
 	docker-compose up --build -d
 
+run_services_rrh:
+	@echo "Run services"
+	docker-compose -f docker-compose-rrh.yaml up --build -d
+
 stop_services:
 	@echo 'Stop services'
 	docker-compose down
+
+stop_services_rrh:
+	@echo "Run services"
+	docker-compose -f docker-compose-rrh.yaml down
 
 
 # 5000 parallels connections, duration 20 seconds

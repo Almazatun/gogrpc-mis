@@ -1,7 +1,12 @@
 package main
 
+import (
+	"os"
+)
+
 func main() {
-	grpcServer := NewGRPCServer(":5002")
+	add := os.Getenv("ADD_SERVICE_BUZZ")
+	grpcServer := NewGRPCServer(add)
 	err := grpcServer.Run()
 
 	if err != nil {
