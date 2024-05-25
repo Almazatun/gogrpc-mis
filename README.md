@@ -1,7 +1,6 @@
 ## GoGrpc-Mis
 
 ```mermaid
-<!-- RRH -->
 flowchart LR
     A[👨‍💼] -->|requests| B{gateway_chan}
     B --> C[buzz_R1_Go]
