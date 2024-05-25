@@ -12,10 +12,10 @@ import (
 
 func main() {
 	// grpc
-	conn_buzz := grpcServer.NewGRPCClient(os.Getenv("BUZZ_SERVICE_ADDR"))
+	conn_buzz := grpcServer.NewGRPCClient(os.Getenv("GATEWAY_BUZZ_SERVICE_ADDR"))
 	defer conn_buzz.Close()
 
-	conn_fuzz := grpcServer.NewGRPCClient(os.Getenv("FUZZ_SERVICE_ADDR"))
+	conn_fuzz := grpcServer.NewGRPCClient(os.Getenv("GATEWAY_FUZZ_SERVICE_ADDR"))
 	defer conn_fuzz.Close()
 
 	// grpc handler

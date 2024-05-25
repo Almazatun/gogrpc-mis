@@ -22,12 +22,14 @@ func NewHttpServer(port string, h *handler.RoundRobinGrpcHandleListener) *httpSe
 
 func (h *httpServer) Run() {
 	router := http.NewServeMux()
-	// Listener
-	go h.handler.Run()
 	// Buzz
 	router.HandleFunc("/buzz", h.handler.HandleRequests)
 
 	fmt.Println("Starting server on " + h.port)
+
+	// Listener
+	go h.handler.Run()
+
 	err := http.ListenAndServe(h.port, router)
 
 	if err != nil {

@@ -13,7 +13,7 @@ services:
       - .env
     environment:
       - GATEWAY_BUZZ_SERVICE_ADDR=${GATEWAY_BUZZ_SERVICE_ADDR}
-      - GATEWAY_SERVICE_ADDR=${GATEWAY_SERVICE_ADDR}
+      - GATEWAY_FUZZ_SERVICE_ADDR=${GATEWAY_FUZZ_SERVICE_ADDR}
     networks:
       - tx
     depends_on:

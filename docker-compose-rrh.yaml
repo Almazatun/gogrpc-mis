@@ -4,7 +4,7 @@ services:
   gateway_service:
     container_name: gateway_service
     build:
-      context: ./gateway_disrobin
+      context: ./gateway_rrh
       dockerfile: ./Dockerfile
     ports:
       - "3001:5001"
