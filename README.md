@@ -1,6 +1,7 @@
 ## GoGrpc-Mis
 
 ```mermaid
+<!-- RRH -->
 flowchart LR
     A[👨‍💼] -->|requests| B{gateway_chan}
     B --> C[buzz_R1_Go]
@@ -24,3 +25,7 @@ Benchmark
 👉 Buzz
 
 ![buzz](/assets/buzz_2024-05-21.png)
+
+👉 Buzz_RRH
+
+![buzz_rrh](/assets/buzz_rrh_2024-05-25.png)
