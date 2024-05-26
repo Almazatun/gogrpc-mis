@@ -29,6 +29,6 @@ func main() {
 	}
 
 	rrh := handler.NewRoundRobinGrpcHandler(listHandler)
-	server := router.NewHttpServer(":3000", rrh)
+	server := router.NewHttpServer(":3055", rrh)
 	server.Run()
 }

@@ -3,6 +3,11 @@ DIR ?=gateway
 
 # Generate service proto
 SER ?=buzz
+# Log service
+SLOG ?=
+
+# Shell container
+EX ?=
 
 GREEN := \033[0;32m
 RESET := \033[0m
@@ -67,12 +72,26 @@ stop_services_rrh:
 	@echo "Run services"
 	docker-compose -f docker-compose-rrh.yaml down
 
+logs_service:
+	@echo "Log service"
+	@echo "$(YELLOW) SLOG: $(SLOG) $(RESET)"
+	docker-compose logs -f $(SLOG)
+
+logs:
+	@echo "Logs all services"
+	docker-compose logs -f 
+
+ex_container:
+	@echo "Shell container"
+	@echo "$(YELLOW) EX: $(EX) $(RESET)"
+	docker-compose exec $(EX) sh
+
 
 # 5000 parallels connections, duration 20 seconds
 load_buzz:
 	@echo "Run load $(GREEN) buzz$(RESET)"
-	autocannon -c 5000 -d 20 -m POST -H "Content-Type: application/json" -b '{"str": "Ping"}' http://localhost:3000/buzz
+	autocannon -c 5000 -d 20 -m POST -H "Content-Type: application/json" -b '{"str": "Ping"}' http://localhost:3055/buzz
 
 load_fuzz:
 	@echo "Run load $(GREEN) fuzz$(RESET)"
-	autocannon -c 5000 -d 20 -m POST -H "Content-Type: application/json" -b '{"str": "Ping"}' http://localhost:3000/fuzz
+	autocannon -c 5000 -d 20 -m POST -H "Content-Type: application/json" -b '{"str": "Ping"}' http://localhost:3055/fuzz

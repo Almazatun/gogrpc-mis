@@ -1,5 +1,5 @@
 ### Gateway fuzz
-POST http://localhost:3000/fuzz
+POST http://localhost:3055/fuzz
 # apiKey: APILAYER_APIKEY
 Content-Type: application/json
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 
 
 ### Gateway buzz
-POST http://localhost:3000/buzz
+POST http://localhost:3055/buzz
 # apiKey: APILAYER_APIKEY
 Content-Type: application/json
 

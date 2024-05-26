@@ -6,6 +6,9 @@ import (
 	"net/http"
 
 	handler "github.com/Almazatun/gogrpc-mis/gateway_rrh/pkg/handler/buzz"
+	handler_metrics "github.com/Almazatun/gogrpc-mis/gateway_rrh/pkg/handler/prometheus"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 type httpServer struct {
@@ -22,8 +25,17 @@ func NewHttpServer(port string, h *handler.RoundRobinGrpcHandleListener) *httpSe
 
 func (h *httpServer) Run() {
 	router := http.NewServeMux()
+	// Metrics
+	regMetrics := prometheus.NewRegistry()
+	metrics := handler_metrics.NewMetrics(regMetrics)
+
 	// Buzz
-	router.HandleFunc("/buzz", h.handler.HandleRequests)
+	buzzHandler := http.HandlerFunc(h.handler.HandleRequests)
+	router.Handle("/buzz", MiddlewareMetrics(buzzHandler, metrics))
+
+	promHandler := promhttp.HandlerFor(regMetrics, promhttp.HandlerOpts{})
+	// lock point
+	router.Handle("/metrics", promHandler)
 
 	fmt.Println("Starting server on " + h.port)
 

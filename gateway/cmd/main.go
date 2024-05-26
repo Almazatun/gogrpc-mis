@@ -27,7 +27,7 @@ func main() {
 	// fuzz
 	fuzzHandler := fuzzHandler.NewFuzzHttpHandler(fuzzGRPCHandler)
 	// http
-	server := router.NewHttpServer(":3000", buzzHandler, fuzzHandler)
+	server := router.NewHttpServer(":3055", buzzHandler, fuzzHandler)
 	err := server.Run()
 
 	if err != nil {
